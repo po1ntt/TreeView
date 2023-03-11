@@ -63,6 +63,7 @@ namespace TreeView.Controls.TreeView
             List<ItemTree> itemTrees = new List<ItemTree>();
             string[] Directories = System.IO.Directory.GetDirectories("C:\\Users\\timat\\source\\repos\\TreeView\\TreeView", "*");
             string[] FilesThatDirecoty = System.IO.Directory.GetFiles("C:\\Users\\timat\\source\\repos\\TreeView\\TreeView", "*");
+           
             foreach (var item in Directories)
             {
                 DirectoryInfo di = null;
@@ -83,8 +84,27 @@ namespace TreeView.Controls.TreeView
                     return itemTrees;
                 }
             }
-          
-            
+            foreach (var item in FilesThatDirecoty)
+            {
+                FileInfo di = null;
+                try
+                {
+                    di = new FileInfo(item);
+                    itemTrees.Add(new ItemTree
+                    {
+                        NameItem = di.Name,
+                        TypeItem = "file",
+                        PathItem = item,
+                        ExtensionItem = di.Extension
+                    });
+                }
+                catch (FileNotFoundException exp)
+                {
+                    Console.WriteLine(exp);
+                    return itemTrees;
+                }
+            }
+
             return itemTrees;
         }
 
