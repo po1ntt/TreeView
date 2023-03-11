@@ -60,7 +60,6 @@ namespace TreeView.Controls.ViewModelsControl
                     item.IsExpand = true;
                     
                  
-                    OnPropertyChanged();
 
 
                 }
@@ -74,7 +73,6 @@ namespace TreeView.Controls.ViewModelsControl
                     {
                         item.IsExpand = true;
                     }
-                    OnPropertyChanged();
                 }
 
               
