@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TreeView.Controls.TreeView.Models;
 
@@ -10,101 +11,77 @@ namespace TreeView.Controls.TreeView
 {
     public class DirectoriService
     {
-        public List<ItemTree> GetInfoAboutDirecotory(string path)
+        public HttpClient httpclient;
+        private readonly string Adress;
+        private readonly JsonSerializerOptions jsonSerializerOptions;
+
+        public DirectoriService()
+        {
+            httpclient = new HttpClient();
+            Adress = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5005" : "https://localhost:7127";
+            jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+        }
+        public async Task<List<ItemTree>> GetInfoAboutDirecotory()
         {
             List<ItemTree> itemTrees = new List<ItemTree>();
-            string[] Directories = System.IO.Directory.GetDirectories(path, "*");
-            string[] FilesThatDirecoty = System.IO.Directory.GetFiles(path, "*");
-            foreach(var item in Directories)
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
-                DirectoryInfo di = null;
-                try
+                Console.WriteLine("504");
+                return itemTrees;
+            }
+            try
+            {
+
+                HttpResponseMessage response = await httpclient.GetAsync($"{Adress}/TreeView/GetThisDirectoryInfo");
+                if (response.IsSuccessStatusCode)
                 {
-                    di = new DirectoryInfo(item);
-                    itemTrees.Add(new ItemTree {
-                        NameItem = di.Name,
-                        TypeItem = "folder",
-                        PathItem = item,
-                        IsExpand = false
-                    });
-                    
+                    string data = await response.Content.ReadAsStringAsync();
+                    itemTrees = JsonSerializer.Deserialize<List<ItemTree>>(data, jsonSerializerOptions);
                 }
-                catch(DirectoryNotFoundException exp)
+                else
                 {
-                    Console.WriteLine(exp);
-                    return itemTrees;
+                    Console.WriteLine("202");
                 }
             }
-            foreach (var item in FilesThatDirecoty)
+            catch (Exception e)
             {
-                FileInfo di = null;
-                try
-                {
-                    di = new FileInfo(item);
-                    itemTrees.Add(new ItemTree
-                    {
-                        NameItem = di.Name,
-                        TypeItem = "file",
-                        PathItem = item,
-                        ExtensionItem = di.Extension
-                    });
-                }
-                catch (FileNotFoundException exp)
-                {
-                    Console.WriteLine(exp);
-                    return itemTrees;
-                }
+                Console.WriteLine(e.Message);
+                return itemTrees;
             }
             return itemTrees;
         }
 
-        public List<ItemTree> GetInfoAboutDirecotory()
+        public async Task<List<ItemTree>> GetInfoAboutDirecotory(string path)
         {
             List<ItemTree> itemTrees = new List<ItemTree>();
-            string[] Directories = System.IO.Directory.GetDirectories("C:\\Users\\timat\\source\\repos\\TreeView\\TreeView", "*");
-            string[] FilesThatDirecoty = System.IO.Directory.GetFiles("C:\\Users\\timat\\source\\repos\\TreeView\\TreeView", "*");
-           
-            foreach (var item in Directories)
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
-                DirectoryInfo di = null;
-                try
-                {
-                    di = new DirectoryInfo(item);
-                    itemTrees.Add(new ItemTree
-                    {
-                        NameItem = di.Name,
-                        TypeItem = "folder",
-                        PathItem = item,
-                        IsExpand = false
-                    });
-                }
-                catch (DirectoryNotFoundException exp)
-                {
-                    Console.WriteLine(exp);
-                    return itemTrees;
-                }
+                Console.WriteLine("504");
+                return itemTrees;
             }
-            foreach (var item in FilesThatDirecoty)
+            try
             {
-                FileInfo di = null;
-                try
-                {
-                    di = new FileInfo(item);
-                    itemTrees.Add(new ItemTree
-                    {
-                        NameItem = di.Name,
-                        TypeItem = "file",
-                        PathItem = item,
-                        ExtensionItem = di.Extension
-                    });
-                }
-                catch (FileNotFoundException exp)
-                {
-                    Console.WriteLine(exp);
-                    return itemTrees;
-                }
-            }
 
+                HttpResponseMessage response = await httpclient.GetAsync($"{Adress}/TreeView/GetParentInfo?path={path}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = await response.Content.ReadAsStringAsync();
+                    itemTrees = JsonSerializer.Deserialize<List<ItemTree>>(data, jsonSerializerOptions);
+                }
+                else
+                {
+                    Console.WriteLine("202");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return itemTrees;
+            }
             return itemTrees;
         }
 

@@ -24,7 +24,28 @@ namespace TreeView.Controls.TreeView.Models
                 OnPropertyChanged();
             }
         }
-        
+        private bool _isLoading;
+
+        public bool isLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged();
+            }
+        }
+        private int _Rotation;
+
+        public int Rotation
+        {
+            get { return _Rotation; }
+            set
+            {
+                _Rotation = value;
+                OnPropertyChanged();
+            }
+        }
 
         private ObservableCollection<ItemTree> _ChildElements;
 

@@ -9,7 +9,7 @@
         <DataTemplate x:Key="file">
             <StackLayout  VerticalOptions="FillAndExpand" Orientation="Horizontal">
                 <Image Source="file.png" WidthRequest="25" HeightRequest="25" ></Image>
-                <Label  VerticalOptions="Center" Text="{Binding NameItem}"></Label>
+                <Label  Margin="5,0,0,0" TextColor="White"  VerticalOptions="Center" Text="{Binding NameItem}"></Label>
             </StackLayout>
         </DataTemplate>
         <DataTemplate x:Key="folder">
@@ -18,9 +18,10 @@
 
 
                 <StackLayout Grid.Row="0" VerticalOptions="FillAndExpand" HeightRequest="25"   Orientation="Horizontal">
-                    <ImageButton Margin="0,0,5,0" WidthRequest="25" HeightRequest="25" Source="rarrow.png" CommandParameter="{Binding}" Command="{Binding Source={RelativeSource AncestorType={x:Type VM:TreeViewModel}}, Path=OpenCommand}"></ImageButton>
+                    <ImageButton Rotation="{Binding Rotation}" Margin="0,0,5,0" WidthRequest="25" HeightRequest="25" Source="rarrow.png" CommandParameter="{Binding}" Command="{Binding Source={RelativeSource AncestorType={x:Type VM:TreeViewModel}}, Path=OpenCommand}"></ImageButton>
                     <Image Source="folder.png" WidthRequest="25" HeightRequest="25" ></Image>
-                    <Label  VerticalOptions="Center" Text="{Binding NameItem}"></Label>
+                    <Label Margin="5,0,0,0" TextColor="White"  VerticalOptions="Center" Text="{Binding NameItem}"></Label>
+                    <ActivityIndicator Margin="10,0,0,0" IsRunning="{Binding isLoading}" Color="White" WidthRequest="15" HeightRequest="15"></ActivityIndicator>
                 </StackLayout>
                 <VerticalStackLayout>
                     <VerticalStackLayout IsVisible="{Binding IsExpand}" Margin="30,5,5,5"   BindableLayout.ItemsSource="{Binding ChildElements}" BindableLayout.ItemTemplateSelector="{StaticResource TreeItemDataSelector}"/>

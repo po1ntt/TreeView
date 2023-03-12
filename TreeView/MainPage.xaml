@@ -11,15 +11,16 @@
         <vm:TreeViewModel></vm:TreeViewModel>
     </ContentPage.BindingContext>
     <ScrollView>
-        <StackLayout
-           
-            >
-           
-           
-            <controltree:TreeView> 
-                
-            </controltree:TreeView>
-        </StackLayout>
-    </ScrollView>
+ 
+        <VerticalStackLayout>
 
+        <ScrollView Orientation="Both" VerticalScrollBarVisibility="Always" HorizontalScrollBarVisibility="Always">
+            <controltree:TreeView>
+
+            </controltree:TreeView>
+        </ScrollView>
+           
+        </VerticalStackLayout>
+
+    </ScrollView>
 </ContentPage>

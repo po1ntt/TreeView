@@ -33,33 +33,34 @@ namespace TreeView.Controls.ViewModelsControl
             MainDirectory = new ObservableCollection<ItemTree>();
             FillMainDirectory();
         }
-        public void FillMainDirectory()
+        public async void FillMainDirectory()
         {
-            var listTree = directoriService.GetInfoAboutDirecotory();
+            List<ItemTree> listTree = await directoriService.GetInfoAboutDirecotory();
             foreach(var item in listTree) 
             {
                 MainDirectory.Add(item);
             }
         }
-        public void FillPartenDirectory(ItemTree item)
+        public async void FillPartenDirectory(ItemTree item)
         {
             if (IsBusy)
                 return;
             try
             {
-              
+                item.isLoading = true;
                 IsBusy = true;
                 if (item.ChildElements == null)
                 {
                     item.ChildElements = new ObservableCollection<ItemTree>();
-                    var parentlist = directoriService.GetInfoAboutDirecotory(item.PathItem);
+                    var parentlist = await directoriService.GetInfoAboutDirecotory(item.PathItem);
                     foreach (var parent in parentlist)
                     {
                         item.ChildElements.Add(parent);
                     }
                     item.IsExpand = true;
-                    
-                 
+                    item.Rotation = 90;
+
+
 
 
                 }
@@ -68,10 +69,12 @@ namespace TreeView.Controls.ViewModelsControl
                     if (item.IsExpand == true)
                     {
                         item.IsExpand = false;
+                        item.Rotation = 0;
                     }
                     else
                     {
                         item.IsExpand = true;
+                        item.Rotation = 90;
                     }
                 }
 
@@ -82,13 +85,13 @@ namespace TreeView.Controls.ViewModelsControl
             }
             catch(Exception ex)
             {
-                Shell.Current.DisplayAlert("Ошибка", ex.Message, "Ок");
+                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "Ок");
                 IsBusy = false;
             }
             finally
             {
                 IsBusy = false;
-               
+                item.isLoading = false;
             }
            
            
