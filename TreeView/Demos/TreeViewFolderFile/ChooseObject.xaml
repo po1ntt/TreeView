@@ -3,20 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TreeView.Demos.TreeViewFolderFile.ChooseObject"
              Title="ChooseObject"
-             
+             Background="#111"
+            
              >
     <VerticalStackLayout>
-        <StackLayout Padding="10">
-            <Label Text="Поиск"></Label>
-            <Entry></Entry>
-        </StackLayout>
+        <Grid Padding="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" Margin="5" TextColor="White" Text="Поиск"></Label>
+            <Entry  Grid.Column="1" Background="White"></Entry>
+        </Grid>
         <ScrollView>
-            <ListView SelectionMode="None" x:Name="LvObjects" ItemTapped="ListView_ItemTapped">
+            <ListView  SelectionMode="None" x:Name="LvObjects" ItemTapped="ListView_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid Margin="10" Padding="10" BackgroundColor="#80373737"  HeightRequest="50">
-                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding ObjectName}">
+                            <Label TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding ObjectName}">
                                 
                             </Label>
                         </Grid>

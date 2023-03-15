@@ -31,6 +31,13 @@ namespace TreeView.Demos.TreeViewFolderFile.Helpers
                 },
                  new WorkingObject
                 {
+                    ObjectName = "Google",
+                    ObjectPath = "C:\\Program Files (x86)\\Google",
+                    PositonId = 4,
+
+                },
+                 new WorkingObject
+                {
                     ObjectName = "Program files",
                     ObjectPath = "C:\\Program Files",
                     PositonId = 2,
