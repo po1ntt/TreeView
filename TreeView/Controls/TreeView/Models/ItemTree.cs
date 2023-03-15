@@ -15,6 +15,19 @@ namespace TreeView.Controls.TreeView.Models
         public string PathItem { get; set; }
         public string TypeItem { get; set; }
         public string ExtensionItem { get; set; }
+        private int _Height = 25;
+        public int Height
+        {
+            get 
+            {
+                return _Height;
+            }
+            set
+            {
+                _Height = value;
+                OnPropertyChanged();
+            }
+        }
         private bool _IsExpand;
 
         public bool IsExpand
@@ -22,6 +35,7 @@ namespace TreeView.Controls.TreeView.Models
             get { return _IsExpand; }
             set { _IsExpand = value;
                 OnPropertyChanged();
+                ChangeHeight();
             }
         }
         private bool _isLoading;
@@ -46,7 +60,7 @@ namespace TreeView.Controls.TreeView.Models
                 OnPropertyChanged();
             }
         }
-
+       
         private ObservableCollection<ItemTree> _ChildElements;
 
         public ObservableCollection<ItemTree> ChildElements
@@ -54,6 +68,17 @@ namespace TreeView.Controls.TreeView.Models
             get { return _ChildElements; }
             set { _ChildElements = value;
                 OnPropertyChanged();
+            }
+        }
+        public void ChangeHeight()
+        {
+            if(IsExpand == true)
+            {
+                Height += ChildElements.Count * 25;
+            }
+            else
+            {
+                Height = 25;
             }
         }
 

@@ -8,40 +8,48 @@ using System.Text;
 using System.Threading.Tasks;
 using TreeView.Controls.TreeView;
 using TreeView.Controls.TreeView.Models;
+using TreeView.Demos.TreeViewFolderFile.Models;
 
-namespace TreeView.Controls.ViewModelsControl
+namespace TreeView.Demos.TreeViewFolderFile.ViewModel
 {
-    public partial class TreeViewModel : INotifyPropertyChanged
+    public class ChooseObjectsVM : INotifyPropertyChanged
     {
-        public ObservableCollection<ItemTree> MainDirectory { get; set; }
-        public Command OpenCommand { get; set; }
+        public string TitlePage { get; set; }
+      
+        public ObservableCollection<ItemTree> ItemsTree { get; set; }
         public DirectoriService directoriService { get; set; }
+        public Command OpenCommand { get; set; }
         private bool _IsBusy;
 
         public bool IsBusy
         {
             get { return _IsBusy; }
-            set { _IsBusy = value;
+            set
+            {
+                _IsBusy = value;
                 OnPropertyChanged();
             }
         }
-
-        public TreeViewModel()
+      
+        public ChooseObjectsVM(WorkingObject workingObject)
         {
             directoriService = new DirectoriService();
-            OpenCommand = new Command((object args) => FillPartenDirectory(args as ItemTree));
-            MainDirectory = new ObservableCollection<ItemTree>();
-            FillMainDirectory();
+            ItemsTree = new ObservableCollection<ItemTree>();
+            TitlePage = workingObject.ObjectName;
+            FillMainDirectory(workingObject.ObjectPath);
+            OpenCommand = new Command((object args) => FillChildElement(args as ItemTree));
+
         }
-        public async void FillMainDirectory()
+        public async void FillMainDirectory(string path)
         {
-            List<ItemTree> listTree = await directoriService.GetInfoAboutDirecotory();
-            foreach(var item in listTree) 
+            ItemsTree.Clear();
+            List<ItemTree> listTree = await directoriService.GetInfoAboutDirectory(path);
+            foreach (var item in listTree)
             {
-                MainDirectory.Add(item);
+                ItemsTree.Add(item);
             }
         }
-        public async void FillPartenDirectory(ItemTree item)
+        public async void FillChildElement(ItemTree item)
         {
             if (IsBusy)
                 return;
@@ -52,16 +60,14 @@ namespace TreeView.Controls.ViewModelsControl
                 if (item.ChildElements == null)
                 {
                     item.ChildElements = new ObservableCollection<ItemTree>();
-                    var parentlist = await directoriService.GetInfoAboutDirecotory(item.PathItem);
-                    foreach (var parent in parentlist)
+                    var childlist = await directoriService.GetInfoAboutDirectory(item.PathItem);
+                    foreach (var child in childlist)
                     {
-                        item.ChildElements.Add(parent);
+                        item.ChildElements.Add(child);
+
                     }
                     item.IsExpand = true;
                     item.Rotation = 90;
-
-
-
 
                 }
                 else
@@ -78,12 +84,8 @@ namespace TreeView.Controls.ViewModelsControl
                     }
                 }
 
-              
-                
-
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Ошибка", ex.Message, "Ок");
                 IsBusy = false;
@@ -93,11 +95,9 @@ namespace TreeView.Controls.ViewModelsControl
                 IsBusy = false;
                 item.isLoading = false;
             }
-           
-           
+
+
         }
-       
-      
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

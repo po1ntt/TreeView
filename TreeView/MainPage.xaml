@@ -6,20 +6,26 @@
              Background="#111"
              Title=""
              Shell.NavBarIsVisible="False"
-             xmlns:vm="clr-namespace:TreeView.Controls.ViewModelsControl">
-    <ContentPage.BindingContext>
-        <vm:TreeViewModel></vm:TreeViewModel>
-    </ContentPage.BindingContext>
+             xmlns:vm="clr-namespace:TreeView.Controls.ViewModelsControl"
+             x:Name="thisPage"
+             >
+
+  
     <ScrollView>
- 
+
         <VerticalStackLayout>
 
-        <ScrollView Orientation="Both" VerticalScrollBarVisibility="Always" HorizontalScrollBarVisibility="Always">
-            <controltree:TreeView>
 
-            </controltree:TreeView>
-        </ScrollView>
-           
+            <ScrollView Orientation="Both" HorizontalScrollBarVisibility="Always">
+
+                <VerticalStackLayout
+                    Margin="10"
+                    VerticalOptions="StartAndExpand"
+                    BindableLayout.ItemsSource="{Binding itemTrees}"
+                    BindableLayout.ItemTemplateSelector="{StaticResource TreeItemDataSelector}"
+                    >
+                </VerticalStackLayout>
+            </ScrollView>
         </VerticalStackLayout>
 
     </ScrollView>

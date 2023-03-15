@@ -1,4 +1,6 @@
-﻿namespace TreeView;
+﻿using TreeView.Demos.TreeViewFolderFile;
+
+namespace TreeView;
 
 public partial class App : Application
 {

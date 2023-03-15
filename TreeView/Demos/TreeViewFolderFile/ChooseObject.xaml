@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TreeView.Demos.TreeViewFolderFile.ChooseObject"
+             Title="ChooseObject"
+             
+             >
+    <VerticalStackLayout>
+        <StackLayout Padding="10">
+            <Label Text="Поиск"></Label>
+            <Entry></Entry>
+        </StackLayout>
+        <ScrollView>
+            <ListView SelectionMode="None" x:Name="LvObjects" ItemTapped="ListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Margin="10" Padding="10" BackgroundColor="#80373737"  HeightRequest="50">
+                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding ObjectName}">
+                                
+                            </Label>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        </ScrollView>
+    </VerticalStackLayout>
+</ContentPage>

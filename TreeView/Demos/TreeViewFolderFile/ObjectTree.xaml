@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TreeView.Demos.TreeViewFolderFile.ObjectTree"
+             Title="{Binding TitlePage}"
+              xmlns:vm="clr-namespace:TreeView.Controls.ViewModelsControl">
+
+
+     
+        <ScrollView Orientation="Both" HorizontalScrollBarVisibility="Always">
+
+            <VerticalStackLayout
+                    Margin="10"
+                    VerticalOptions="StartAndExpand"
+                    BindableLayout.ItemsSource="{Binding ItemsTree}"
+                    BindableLayout.ItemTemplateSelector="{StaticResource TreeItemDataSelector}"
+                    >
+            </VerticalStackLayout>
+        </ScrollView>
+</ContentPage>

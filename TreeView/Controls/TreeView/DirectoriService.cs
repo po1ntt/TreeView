@@ -25,7 +25,7 @@ namespace TreeView.Controls.TreeView
             };
 
         }
-        public async Task<List<ItemTree>> GetInfoAboutDirecotory()
+        public async Task<List<ItemTree>> GetInfoAboutDirectory()
         {
             List<ItemTree> itemTrees = new List<ItemTree>();
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
@@ -55,7 +55,7 @@ namespace TreeView.Controls.TreeView
             return itemTrees;
         }
 
-        public async Task<List<ItemTree>> GetInfoAboutDirecotory(string path)
+        public async Task<List<ItemTree>> GetInfoAboutDirectory(string path)
         {
             List<ItemTree> itemTrees = new List<ItemTree>();
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
