@@ -23,7 +23,9 @@
                     VerticalOptions="StartAndExpand"
                     BindableLayout.ItemsSource="{Binding itemTrees}"
                     BindableLayout.ItemTemplateSelector="{StaticResource TreeItemDataSelector}"
+                    
                     >
+
                 </VerticalStackLayout>
             </ScrollView>
         </VerticalStackLayout>

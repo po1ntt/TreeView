@@ -11,13 +11,13 @@
         <VerticalStackLayout>
       
         <ScrollView  Orientation="Both"  VerticalScrollBarVisibility="Always">
-            <VerticalStackLayout
+            <CollectionView
                     Margin="10"
                     VerticalOptions="StartAndExpand"
-                    BindableLayout.ItemsSource="{Binding ItemsTree}"
-                    BindableLayout.ItemTemplateSelector="{StaticResource TreeItemDataSelector}"
+                    ItemsSource="{Binding ItemsTree}"
+                    ItemTemplate="{StaticResource TreeItemDataSelector}"
                     >
-            </VerticalStackLayout>
+            </CollectionView>
         </ScrollView>
 
         </VerticalStackLayout>
