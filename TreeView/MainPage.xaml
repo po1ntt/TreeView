@@ -11,24 +11,8 @@
              >
 
   
-    <ScrollView>
-
-        <VerticalStackLayout>
 
 
-            <ScrollView Orientation="Both" HorizontalScrollBarVisibility="Always">
 
-                <VerticalStackLayout
-                    Margin="10"
-                    VerticalOptions="StartAndExpand"
-                    BindableLayout.ItemsSource="{Binding itemTrees}"
-                    BindableLayout.ItemTemplateSelector="{StaticResource TreeItemDataSelector}"
-                    
-                    >
 
-                </VerticalStackLayout>
-            </ScrollView>
-        </VerticalStackLayout>
-
-    </ScrollView>
 </ContentPage>

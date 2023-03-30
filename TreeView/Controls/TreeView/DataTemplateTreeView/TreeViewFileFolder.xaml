@@ -59,7 +59,7 @@
                     TextColor="White"  
                     VerticalOptions="Center" Text="{Binding Height}"/>
             </StackLayout>
-            <VerticalStackLayout 
+            <VerticalStackLayout
                     IsVisible="{Binding IsExpand}"
                     Margin="30,5,5,5" 
                     BindableLayout.ItemsSource="{Binding ChildElements}"

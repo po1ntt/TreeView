@@ -65,6 +65,15 @@ namespace ControlsApi.Controllers
             List<ItemTree> itemTrees = new List<ItemTree>();
             string[] Directories = System.IO.Directory.GetDirectories(path, "*");
             string[] FilesThatDirecoty = System.IO.Directory.GetFiles(path, "*");
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
             foreach (var item in Directories)
             {
                 DirectoryInfo di = null;
@@ -82,7 +91,7 @@ namespace ControlsApi.Controllers
                 catch (DirectoryNotFoundException exp)
                 {
                     Console.WriteLine(exp);
-                    return itemTrees;
+                    throw;
                 }
             }
             foreach (var item in FilesThatDirecoty)
@@ -102,7 +111,7 @@ namespace ControlsApi.Controllers
                 catch (FileNotFoundException exp)
                 {
                     Console.WriteLine(exp);
-                    return itemTrees;
+                    throw;
                 }
             }
             return itemTrees;

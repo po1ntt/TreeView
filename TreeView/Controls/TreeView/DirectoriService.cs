@@ -50,7 +50,7 @@ namespace TreeView.Controls.TreeView
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return itemTrees;
+                return null;
             }
             return itemTrees;
         }

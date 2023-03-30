@@ -26,4 +26,9 @@ public partial class ChooseObject : ContentPage
 	
 		await Shell.Current.Navigation.PushAsync(new ObjectTree(e.Item as WorkingObject));
     }
+
+    private void ContentPage_Appearing(object sender, EventArgs e)
+    {
+
+    }
 }

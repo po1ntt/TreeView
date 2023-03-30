@@ -4,7 +4,7 @@
              x:Class="TreeView.Demos.TreeViewFolderFile.ChooseObject"
              Title="ChooseObject"
              Background="#111"
-            
+                Appearing="ContentPage_Appearing"
              >
     <VerticalStackLayout>
         <Grid Padding="10">
