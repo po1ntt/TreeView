@@ -56,6 +56,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Controls\CustomTreeView\CustomTree\Style\TreeControlSelector.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\CustomTreeView\CustomTree\TreeContentView\TreeControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\TreeView\DataTemplateTreeView\TreeViewFileFolder.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

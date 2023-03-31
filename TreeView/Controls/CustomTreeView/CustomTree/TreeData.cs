@@ -17,7 +17,7 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
         public TreeData()
         {
             InitAsync();
-            LoadChilds = new Command(async (object args) => await OpenChilds(args as NodeTree));
+            LoadChilds = new Command(async (object args) => await OpenCloseChilds(args as NodeTree));
         }
         private async void InitAsync()
         {
@@ -38,31 +38,57 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
                 await Shell.Current.DisplayAlert("Nodes error","Nodes is null","ok");
             }
         }
-        private async Task OpenChilds(NodeTree nodeTree)
+        private async Task OpenCloseChilds(NodeTree nodeTree)
         {
             int index = nodeTrees.IndexOf(nodeTree);
+            nodeTree.isLoading = true;
 
             if (nodeTree.ChildElements == null)
             {
-                var ListChilds = await LoadChildsFunctions(nodeTree);
-
-                foreach (NodeTree node in ListChilds)
+                if (nodeTree.ChildElements == null)
                 {
-                    nodeTrees.Insert(index + 1, node);
-                    nodeTree.ChildElements.Add(node);
+                    var ListChilds = await LoadChildsFunctions(nodeTree);
+
+                    foreach (NodeTree node in ListChilds)
+                    {
+                        nodeTrees.Insert(index + 1, node);
+                        nodeTree.ChildElements.Add(node);
+                        nodeTree.Rotation = 90;
+
+                    }
                 }
-                nodeTree.IsVisibleChildElements = true;
             }
             else
             {
-                if (nodeTree.IsVisibleChildElements)
+                var itemnode = nodeTree.ChildElements[0];
+                if (itemnode.IsVisible)
                 {
-                    foreach (var node in nodeTree.ChildElements)
+                    bool NestingEnded = false;
+                    List<NodeTree> NodesToHide = new List<NodeTree>();
+                    List<NodeTree> OpenNesting = new List<NodeTree>();
+                    OpenNesting.Add(nodeTree);
+                    while (NestingEnded == false)
                     {
-                        var nodetohide = nodeTrees.FirstOrDefault(p => p.UniqueId == node.UniqueId);
-                        nodetohide.IsVisible = false;
+                        index++;
+                        var findnodebuindex = nodeTrees[index];
+                        if (OpenNesting.Contains(findnodebuindex.ParentNode))
+                        {
+                            NodesToHide.Add(findnodebuindex);
+                            if (findnodebuindex.ChildElements != null)
+                            {
+                                OpenNesting.Add(findnodebuindex);
+                            }
+                        }
+                        else
+                        {
+                            NestingEnded = true;
+                        }
                     }
-                    nodeTree.IsVisibleChildElements = false;
+                    foreach (NodeTree node in NodesToHide)
+                    {
+                        node.IsVisible = false;
+                        nodeTree.Rotation = 0;
+                    }
                 }
                 else
                 {
@@ -70,10 +96,11 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
                     {
                         var nodetohide = nodeTrees.FirstOrDefault(p => p.UniqueId == node.UniqueId);
                         nodetohide.IsVisible = true;
+                        nodeTree.Rotation = 90;
                     }
-                    nodeTree.IsVisibleChildElements = true;
                 }
             }
+            nodeTree.isLoading = false;
 
         }
         public async virtual Task<List<NodeTree>> LoadTree()

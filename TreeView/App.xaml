@@ -9,6 +9,8 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary Source="Controls\TreeView\DataTemplateTreeView\TreeViewFileFolder.xaml" />
+                <ResourceDictionary Source="Controls\CustomTreeView\CustomTree\Style\TreeControlSelector.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
