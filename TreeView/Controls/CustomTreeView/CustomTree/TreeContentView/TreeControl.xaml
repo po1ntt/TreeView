@@ -13,7 +13,7 @@
             <ScrollView>
                 <VerticalStackLayout>
                     <CollectionView
-                    Margin="10"
+                        Margin="10"
                     VerticalOptions="StartAndExpand"
                     ItemsSource="{TemplateBinding NodeTrees}"
                     ItemTemplate="{StaticResource CustomTreeDataTemplateSelector}"

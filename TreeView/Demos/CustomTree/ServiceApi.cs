@@ -24,7 +24,7 @@ namespace TreeView.Demos.CustomTree
             };
 
         }
-        public async Task<List<NodeTree>> GetInfoAboutDirectory(string path)
+        public async Task<List<NodeTree>> GetNodesToCustom()
         {
             List<NodeTree> itemTrees = new List<NodeTree>();
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
@@ -35,7 +35,36 @@ namespace TreeView.Demos.CustomTree
             try
             {
 
-                HttpResponseMessage response = await httpclient.GetAsync($"{Adress}/TreeView/GetNodeTree?path={path}");
+                HttpResponseMessage response = await httpclient.GetAsync($"{Adress}/TreeView/GetNodeTree");
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = await response.Content.ReadAsStringAsync();
+                    itemTrees = JsonSerializer.Deserialize<List<NodeTree>>(data, jsonSerializerOptions);
+                }
+                else
+                {
+                    Console.WriteLine("202");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return itemTrees;
+            }
+            return itemTrees;
+        }
+        public async Task<List<NodeTree>> GetChildsNodes(string path)
+        {
+            List<NodeTree> itemTrees = new List<NodeTree>();
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                Console.WriteLine("504");
+                return itemTrees;
+            }
+            try
+            {
+
+                HttpResponseMessage response = await httpclient.GetAsync($"{Adress}/TreeView/GetChildsTree?path={path}");
                 if (response.IsSuccessStatusCode)
                 {
                     string data = await response.Content.ReadAsStringAsync();

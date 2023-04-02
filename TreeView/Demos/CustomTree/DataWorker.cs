@@ -17,14 +17,14 @@ namespace TreeView.Demos.CustomTree
         public override async Task<List<NodeTree>> LoadTree()
         {
 
-            var listTree = await serviceApi.GetInfoAboutDirectory("C:\\Games\\This Is the Police");
+            var listTree = await serviceApi.GetNodesToCustom();
           
             return listTree;
         }
         public override async Task<List<NodeTree>> LoadChildsFunctions(NodeTree nodeTree)
         {
             List<NodeTree> itemTrees = new List<NodeTree>();
-            itemTrees = await serviceApi.GetInfoAboutDirectory(nodeTree.ApiUrl);
+            itemTrees = await serviceApi.GetChildsNodes(nodeTree.ApiUrl);
   
             return itemTrees;
         }

@@ -45,7 +45,6 @@
 
             <VerticalStackLayout
             VerticalOptions="Fill"
-          IsVisible="{Binding IsVisible}"
         
            >
                 <StackLayout
