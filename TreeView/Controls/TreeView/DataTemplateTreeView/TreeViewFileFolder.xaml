@@ -6,7 +6,7 @@
              xmlns:VM="clr-namespace:TreeView.Demos.TreeViewFolderFile.ViewModel"
 >
     <DataTemplate x:Key="file">
-        <StackLayout  VerticalOptions="FillAndExpand" Orientation="Horizontal"
+        <StackLayout Margin="{Binding MarginNode}"  VerticalOptions="FillAndExpand" Orientation="Horizontal"
                        
                       >
          
@@ -25,6 +25,7 @@
     <DataTemplate x:Key="folder">
         <VerticalStackLayout 
             VerticalOptions="Fill"
+            Margin="{Binding MarginNode}"
             
            >
             <StackLayout

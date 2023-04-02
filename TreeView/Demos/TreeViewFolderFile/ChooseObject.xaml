@@ -16,19 +16,21 @@
             <Entry  Grid.Column="1" Background="White"></Entry>
         </Grid>
         <ScrollView>
-            <ListView  SelectionMode="None" x:Name="LvObjects" ItemTapped="ListView_ItemTapped">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Margin="10" Padding="10" BackgroundColor="#80373737"  HeightRequest="50">
-                            <Label TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding ObjectName}">
-                                
-                            </Label>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                <ListView  SelectionMode="None" x:Name="LvObjects" ItemTapped="ListView_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Margin="10" Padding="10" BackgroundColor="#80373737"  HeightRequest="50">
+                                    <Label TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="Center" Text="{Binding ObjectName}">
+
+                                    </Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
         </ListView>
         </ScrollView>
+        <Button Clicked="Button_Clicked" Text="Кастомной дерево"></Button>
+
     </VerticalStackLayout>
 </ContentPage>

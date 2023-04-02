@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using TreeView.Demos.CustomTree;
 using TreeView.Demos.TreeViewFolderFile.Helpers;
 using TreeView.Demos.TreeViewFolderFile.Models;
 
@@ -30,5 +31,10 @@ public partial class ChooseObject : ContentPage
     private void ContentPage_Appearing(object sender, EventArgs e)
     {
 
+    }
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+		await Shell.Current.Navigation.PushAsync(new TestCustomTree());
     }
 }

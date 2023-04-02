@@ -5,8 +5,10 @@
              xmlns:local="clr-namespace:TreeView.Controls.CustomTreeView.CustomTree"
                     >
     <DataTemplate x:Key="file">
+        <Grid Margin="{Binding MarginNode}"   IsVisible="{Binding IsVisible}">
+            
+       
         <StackLayout  VerticalOptions="FillAndExpand" Orientation="Horizontal"
-                       
                       >
 
             <Image 
@@ -15,49 +17,87 @@
                 HeightRequest="25" />
             <Label  Margin="5,0,0,0" 
                     TextColor="White"  
-                    VerticalOptions="Center" Text="{Binding NameItem}"/>
-            <Label Margin="5,0,0,0" 
-                    TextColor="White"  
-                    VerticalOptions="Center" Text="{Binding Height}"/>
+                    VerticalOptions="Center" Text="{Binding TitleNode }"/>
+           
         </StackLayout>
+            <Grid.Triggers>
+                <Trigger TargetType="Grid"
+                           Property="IsVisible"
+                           Value="false">
+                    <Setter Property="HeightRequest" Value="0"></Setter>
+                </Trigger>
+                <Trigger TargetType="Grid"
+                           Property="IsVisible"
+                           Value="false">
+                    <Setter Property="Margin" Value="0"></Setter>
+                </Trigger>
+                <Trigger TargetType="Grid"
+                           Property="IsVisible"
+                           Value="false">
+                    <Setter Property="Padding" Value="0"></Setter>
+                </Trigger>
+            </Grid.Triggers>
+        </Grid>
     </DataTemplate>
     <DataTemplate x:Key="folder">
-        <VerticalStackLayout 
+
+        <Grid   Margin="{Binding MarginNode}"    IsVisible="{Binding IsVisible}">
+
+            <VerticalStackLayout
             VerticalOptions="Fill"
-            
+          IsVisible="{Binding IsVisible}"
+        
            >
-            <StackLayout
-                Grid.Row="0"
+                <StackLayout
                 VerticalOptions="FillAndExpand"
                 Orientation="Horizontal">
-                <ImageButton 
+                    <ImageButton 
                     Rotation="{Binding Rotation}"
                     Margin="0,0,5,0" 
                     WidthRequest="25"
                     HeightRequest="25"
                     Source="rarrow.png"
+                    CommandParameter="{Binding}"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:TreeData}}, Path=LoadChilds}"
+
                     />
-                <Image
+                    <Image
                     Source="folder.png"
                     WidthRequest="25"
                     HeightRequest="25" />
-                <Label 
+                    <Label 
                     Margin="5,0,0,0"
                     TextColor="White" 
                     VerticalOptions="Center"
-                    Text="{Binding NameItem}"/>
-                <ActivityIndicator
+                    Text="{Binding TitleNode}"/>
+                    <ActivityIndicator
                     Margin="10,0,0,0"
                     IsRunning="{Binding isLoading}"
                     Color="White"
                     WidthRequest="15"
                     HeightRequest="15"/>
-                <Label Margin="5,0,0,0" 
-                    TextColor="White"  
-                    VerticalOptions="Center" Text="{Binding Height}"/>
-            </StackLayout>
-           
-        </VerticalStackLayout>
+
+                </StackLayout>
+
+            </VerticalStackLayout>
+            <Grid.Triggers>
+                <Trigger TargetType="Grid"
+                          Property="IsVisible"
+                             Value="False">
+                    <Setter Property="HeightRequest" Value="0"></Setter>
+                </Trigger>
+                <Trigger TargetType="Grid"
+                          Property="IsVisible"
+                         Value="False">
+                    <Setter Property="Margin" Value="0"></Setter>
+                </Trigger>
+                <Trigger TargetType="Grid"
+                          Property="IsVisible"
+                         Value="False">
+                    <Setter Property="Padding" Value="0"></Setter>
+                </Trigger>
+            </Grid.Triggers>
+        </Grid>
     </DataTemplate>
     <local:CustomTreeDataTemplateSelector x:Key="CustomTreeDataTemplateSelector"
                                               Folder="{StaticResource folder}"

@@ -16,17 +16,8 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
         public int LevelNode { get; set; }
         public string ImageUrl { get; set; }
         public bool HasChilds { get; set; }
+        public Thickness MarginNode => new Thickness(LevelNode * 30, 0, 0, 0);
 
-      
-        private int _MarginNode;
-        public int MarginNode
-        {
-            get { return _MarginNode; }
-            set
-            {
-                _MarginNode = LevelNode * 30;
-            }
-        }
         private bool _IsVisible;
         public bool IsVisible
         {
@@ -37,27 +28,54 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<NodeTree> ChildElements { get; set; }
+        private int _Height;
+
+        public int Height
+        {
+            get { return _Height; }
+            set { _Height = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isLoading;
+        public bool isLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged();
+            }
+        }
+        private int _Rotation;
+        public int Rotation
+        {
+            get { return _Rotation; }
+            set
+            {
+                _Rotation = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ApiUrl { get; set; }
+        public void ChangeHeight()
+        {
+            if(IsVisible == true)
+            {
+                Height = -1;
+            }
+            else
+            {
+                Height = 0;
+            }
+        }
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        public void AddChildElements(bool HasChilds, string imageurl ,string titlenode, NodeTree node)
-        {
-            ChildElements.Add(new NodeTree()
-            {
-              UniqueId = Guid.NewGuid(),
-              LevelNode = LevelNode + 1,
-              HasChilds = HasChilds,
-              ImageUrl = imageurl,
-              TitleNode = titlenode,
-              MarginNode = MarginNode,
-              ChildElements= null,
-              ParentNode = node
-          
-            });
-        }
+       
         public NodeTree ParentNode { get; set; }
        
     }

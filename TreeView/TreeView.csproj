@@ -65,6 +65,9 @@
 	  <MauiXaml Update="Controls\TreeView\DataTemplateTreeView\TreeViewFileFolder.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Demos\CustomTree\TestCustomTree.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Demos\TreeViewFolderFile\ChooseObject.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

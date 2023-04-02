@@ -116,6 +116,69 @@ namespace ControlsApi.Controllers
             }
             return itemTrees;
         }
+        [HttpGet("GetNodeTree")]
+        public List<NodeTree> GetNodeTree(string path)
+        {
+            List<NodeTree> itemTrees = new List<NodeTree>();
+            string[] Directories = System.IO.Directory.GetDirectories(path, "*");
+            string[] FilesThatDirecoty = System.IO.Directory.GetFiles(path, "*");
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+            foreach (var item in Directories)
+            {
+                DirectoryInfo di = null;
+                try
+                {
+                    di = new DirectoryInfo(item);
+                    itemTrees.Add(new NodeTree
+                    {
+                        TitleNode = di.Name,
+                        ApiUrl = item,
+                        HasChilds= true,
+                        LevelNode = 0,
+                        IsVisible= true,
+                        
+                        
+                    });
+
+                }
+                catch (DirectoryNotFoundException exp)
+                {
+                    Console.WriteLine(exp);
+                    throw;
+                }
+            }
+            foreach (var item in FilesThatDirecoty)
+            {
+                FileInfo di = null;
+                try
+                {
+                    di = new FileInfo(item);
+                    itemTrees.Add(new NodeTree
+                    {
+                        TitleNode = di.Name,
+                        ApiUrl = item,
+                        HasChilds = false,
+                        LevelNode = 0,
+                        IsVisible= true
+                        
+                    });
+                }
+                catch (FileNotFoundException exp)
+                {
+                    Console.WriteLine(exp);
+                    throw;
+                }
+            }
+            return itemTrees;
+        }
 
     }
 }

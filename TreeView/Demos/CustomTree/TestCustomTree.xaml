@@ -2,11 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TreeView.Demos.CustomTree.TestCustomTree"
-             Title="TestCustomTree">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="TestCustomTree"
+             x:Name="this"
+             xmlns:customtree="clr-namespace:TreeView.Controls.CustomTreeView.CustomTree.TreeContentView"
+             xmlns:local="clr-namespace:TreeView.Demos.CustomTree"
+             Background="#111"
+             >
+    <ContentPage.BindingContext>
+        <local:DataWorker></local:DataWorker>
+    </ContentPage.BindingContext>
+    <Grid>
+        <ScrollView>
+            
+      
+        <customtree:TreeControl Background="#111" NodeTrees="{Binding nodeTrees}">
+            
+        </customtree:TreeControl>
+        </ScrollView>
+    </Grid>
 </ContentPage>

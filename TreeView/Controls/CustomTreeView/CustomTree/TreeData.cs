@@ -2,34 +2,42 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TreeView.Controls.CustomTreeView.CustomTree
 {
-    public class TreeData
+    abstract class TreeData
     {
-
-        public Command LoadChilds { get; set; }
-        public ObservableCollection<NodeTree> nodeTrees { get; set; } = new();
         public TreeData()
         {
             InitAsync();
             LoadChilds = new Command(async (object args) => await OpenCloseChilds(args as NodeTree));
         }
+        public NodeTree ParentNode { get; set; }
+        public Command LoadChilds { get; set; }
+        public ObservableCollection<NodeTree> nodeTrees { get; set; }
+        public ObservableCollection<NodeTree> ChildElements { get; set; }
+       
         private async void InitAsync()
         {
-           await LoadNodes();
+            nodeTrees = new ObservableCollection<NodeTree>();
+            LoadChilds = new Command(async (object args) => await OpenCloseChilds(args as NodeTree));
+            await LoadNodes();
         }
         private async Task LoadNodes()
         {
-            List<NodeTree> nodes =  await LoadTree();
+            var nodes =  await LoadTree();
             if(nodes!= null)
             {
                 foreach (NodeTree node in nodes)
                 {
+                    node.Height = -1;
                     nodeTrees.Add(node);
                 }
             }
@@ -43,59 +51,45 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
             int index = nodeTrees.IndexOf(nodeTree);
             nodeTree.isLoading = true;
 
-            if (nodeTree.ChildElements == null)
+            var itemnode = nodeTrees.Where(p => p.ParentNode == nodeTree).ToList() ;
+
+            if (itemnode.Count == 0)
             {
-                if (nodeTree.ChildElements == null)
-                {
+              
                     var ListChilds = await LoadChildsFunctions(nodeTree);
+                     int levelnode = nodeTree.LevelNode + 1;
+
 
                     foreach (NodeTree node in ListChilds)
                     {
-                        nodeTrees.Insert(index + 1, node);
-                        nodeTree.ChildElements.Add(node);
+                        node.ParentNode = nodeTree;
+                         node.LevelNode = levelnode;
+                        node.Height = -1;
+    
+                         nodeTrees.Insert(index + 1, node);
                         nodeTree.Rotation = 90;
 
                     }
-                }
+                
             }
             else
             {
-                var itemnode = nodeTree.ChildElements[0];
-                if (itemnode.IsVisible)
+                if (itemnode[0].IsVisible)
                 {
-                    bool NestingEnded = false;
-                    List<NodeTree> NodesToHide = new List<NodeTree>();
-                    List<NodeTree> OpenNesting = new List<NodeTree>();
-                    OpenNesting.Add(nodeTree);
-                    while (NestingEnded == false)
-                    {
-                        index++;
-                        var findnodebuindex = nodeTrees[index];
-                        if (OpenNesting.Contains(findnodebuindex.ParentNode))
-                        {
-                            NodesToHide.Add(findnodebuindex);
-                            if (findnodebuindex.ChildElements != null)
-                            {
-                                OpenNesting.Add(findnodebuindex);
-                            }
-                        }
-                        else
-                        {
-                            NestingEnded = true;
-                        }
-                    }
-                    foreach (NodeTree node in NodesToHide)
+                   
+                    foreach (NodeTree node in GetHideNode(nodeTree))
                     {
                         node.IsVisible = false;
+                        node.Height = 0;
                         nodeTree.Rotation = 0;
                     }
                 }
                 else
                 {
-                    foreach (var node in nodeTree.ChildElements)
+                    foreach (var node in nodeTrees.Where(p=> p.ParentNode == nodeTree).ToList())
                     {
-                        var nodetohide = nodeTrees.FirstOrDefault(p => p.UniqueId == node.UniqueId);
-                        nodetohide.IsVisible = true;
+                        node.IsVisible = true;
+                        node.Height = -1;
                         nodeTree.Rotation = 90;
                     }
                 }
@@ -103,15 +97,40 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
             nodeTree.isLoading = false;
 
         }
-        public async virtual Task<List<NodeTree>> LoadTree()
+        private List<NodeTree> GetHideNode(NodeTree nodeTree)
         {
-            return null;
+            bool NestingEnded = false;
+            List<NodeTree> NodesToHide = new List<NodeTree>();
+            List<NodeTree> OpenNesting = new List<NodeTree>();
+            int index = nodeTrees.IndexOf(nodeTree);
+
+            OpenNesting.Add(nodeTree);
+            while (NestingEnded == false)
+            {
+                index++;
+                var findnodebuindex = nodeTrees[index];
+                if (OpenNesting.Contains(findnodebuindex.ParentNode))
+                {
+                    NodesToHide.Add(findnodebuindex);
+                    if (nodeTrees.FirstOrDefault(p=> p.ParentNode == findnodebuindex) != null)
+                    {
+                        OpenNesting.Add(findnodebuindex);
+                    }
+                }
+                else
+                {
+                    NestingEnded = true;
+                }
+              
+            }
+            return NodesToHide;
+
         }
-        public async virtual Task<List<NodeTree>> LoadChildsFunctions(NodeTree nodeTree)
-        {
-            return null;
-        }
-        
+        public  abstract Task<List<NodeTree>> LoadTree();
+
+        public abstract Task<List<NodeTree>> LoadChildsFunctions(NodeTree nodeTree);
        
+
+        
     }
 }
