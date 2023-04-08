@@ -17,16 +17,11 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
         public TreeData()
         {
             InitAsync();
-            LoadChilds = new Command(async (object args) => await OpenCloseChilds(args as NodeTree));
         }
-        public NodeTree ParentNode { get; set; }
         public Command LoadChilds { get; set; }
-        public ObservableCollection<NodeTree> nodeTrees { get; set; }
-        public ObservableCollection<NodeTree> ChildElements { get; set; }
-       
+        public ObservableCollection<NodeTree> nodeTrees { get; set; } = new();       
         private async void InitAsync()
         {
-            nodeTrees = new ObservableCollection<NodeTree>();
             LoadChilds = new Command(async (object args) => await OpenCloseChilds(args as NodeTree));
             await LoadNodes();
         }
@@ -37,7 +32,6 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
             {
                 foreach (NodeTree node in nodes)
                 {
-                    node.Height = -1;
                     nodeTrees.Add(node);
                 }
             }
@@ -48,54 +42,55 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
         }
         private async Task OpenCloseChilds(NodeTree nodeTree)
         {
-            int index = nodeTrees.IndexOf(nodeTree);
             nodeTree.isLoading = true;
 
-            var itemnode = nodeTrees.Where(p => p.ParentNode == nodeTree).ToList() ;
-
-            if (itemnode.Count == 0)
+            if (nodeTree.Childrens.Count == 0)
             {
-              
-                    var ListChilds = await LoadChildsFunctions(nodeTree);
-                     int levelnode = nodeTree.LevelNode + 1;
-
-
-                    foreach (NodeTree node in ListChilds)
-                    {
-                        node.ParentNode = nodeTree;
-                         node.LevelNode = levelnode;
-                        node.Height = -1;
-    
-                         nodeTrees.Insert(index + 1, node);
-                        nodeTree.Rotation = 90;
-
-                    }
-                
+                await LazyLoadChildren(nodeTree);
             }
             else
             {
-                if (itemnode[0].IsVisible)
+                if(nodeTree.IsVisibleChildElements == true)
                 {
-                   
                     foreach (NodeTree node in GetHideNode(nodeTree))
                     {
-                        node.IsVisible = false;
-                        node.Height = 0;
-                        nodeTree.Rotation = 0;
+                        nodeTrees.Remove(node);
                     }
+                    nodeTree.Rotation = 0;
+                    nodeTree.IsVisibleChildElements = false;
+
                 }
                 else
                 {
-                    foreach (var node in nodeTrees.Where(p=> p.ParentNode == nodeTree).ToList())
+                    int index = nodeTrees.IndexOf(nodeTree);
+                    foreach (NodeTree node in nodeTree.Childrens)
                     {
-                        node.IsVisible = true;
-                        node.Height = -1;
-                        nodeTree.Rotation = 90;
+                        nodeTrees.Insert(index+ 1, node);
+
                     }
+                    nodeTree.Rotation = 90;
+                    nodeTree.IsVisibleChildElements = true;
+
                 }
+
             }
             nodeTree.isLoading = false;
 
+        }
+        private async Task LazyLoadChildren(NodeTree node)
+        {
+            int index = nodeTrees.IndexOf(node);
+            int levelnode = node.LevelNode + 1;
+            foreach (NodeTree item in await LoadChildsFunctions(node))
+            {
+                item.ParentNode = node;
+                item.LevelNode = levelnode;
+                node.Childrens.Add(item);
+                nodeTrees.Insert(index + 1, item);
+
+            }
+            node.Rotation = 90;
+            node.IsVisibleChildElements = true;
         }
         private List<NodeTree> GetHideNode(NodeTree nodeTree)
         {

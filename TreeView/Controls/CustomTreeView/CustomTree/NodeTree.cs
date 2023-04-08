@@ -11,33 +11,23 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
 {
     public class NodeTree : INotifyPropertyChanged
     {
-        public Guid UniqueId { get; set; }
         public string TitleNode { get; set; }
         public int LevelNode { get; set; }
         public string ImageUrl { get; set; }
         public bool HasChilds { get; set; }
         public Thickness MarginNode => new Thickness(LevelNode * 30, 0, 0, 0);
 
-        private bool _IsVisible;
-        public bool IsVisible
+        private bool _IsVisibleChildElements;
+        public bool IsVisibleChildElements
         {
-            get { return _IsVisible; }
+            get { return _IsVisibleChildElements; }
             set
             {
-                _IsVisible = value;
+                _IsVisibleChildElements = value;
                 OnPropertyChanged();
             }
         }
-        private int _Height;
-
-        public int Height
-        {
-            get { return _Height; }
-            set { _Height = value;
-                OnPropertyChanged();
-            }
-        }
-
+     
         private bool _isLoading;
         public bool isLoading
         {
@@ -59,17 +49,8 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
             }
         }
         public string ApiUrl { get; set; }
-        public void ChangeHeight()
-        {
-            if(IsVisible == true)
-            {
-                Height = -1;
-            }
-            else
-            {
-                Height = 0;
-            }
-        }
+        public List<NodeTree> Childrens { get; set; } = new();
+      
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

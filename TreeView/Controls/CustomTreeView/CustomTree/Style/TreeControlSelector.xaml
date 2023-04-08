@@ -5,7 +5,7 @@
              xmlns:local="clr-namespace:TreeView.Controls.CustomTreeView.CustomTree"
                     >
     <DataTemplate x:Key="file">
-        <Grid Margin="{Binding MarginNode}"   IsVisible="{Binding IsVisible}">
+        <Grid Margin="{Binding MarginNode}" >
             
        
         <StackLayout  VerticalOptions="FillAndExpand" Orientation="Horizontal"
@@ -20,28 +20,12 @@
                     VerticalOptions="Center" Text="{Binding TitleNode }"/>
            
         </StackLayout>
-            <Grid.Triggers>
-                <Trigger TargetType="Grid"
-                           Property="IsVisible"
-                           Value="false">
-                    <Setter Property="HeightRequest" Value="0"></Setter>
-                </Trigger>
-                <Trigger TargetType="Grid"
-                           Property="IsVisible"
-                           Value="false">
-                    <Setter Property="Margin" Value="0"></Setter>
-                </Trigger>
-                <Trigger TargetType="Grid"
-                           Property="IsVisible"
-                           Value="false">
-                    <Setter Property="Padding" Value="0"></Setter>
-                </Trigger>
-            </Grid.Triggers>
+          
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="folder">
 
-        <Grid   Margin="{Binding MarginNode}"    IsVisible="{Binding IsVisible}">
+        <Grid   Margin="{Binding MarginNode}" >
 
             <VerticalStackLayout
             VerticalOptions="Fill"
@@ -79,23 +63,7 @@
                 </StackLayout>
 
             </VerticalStackLayout>
-            <Grid.Triggers>
-                <Trigger TargetType="Grid"
-                          Property="IsVisible"
-                             Value="False">
-                    <Setter Property="HeightRequest" Value="0"></Setter>
-                </Trigger>
-                <Trigger TargetType="Grid"
-                          Property="IsVisible"
-                         Value="False">
-                    <Setter Property="Margin" Value="0"></Setter>
-                </Trigger>
-                <Trigger TargetType="Grid"
-                          Property="IsVisible"
-                         Value="False">
-                    <Setter Property="Padding" Value="0"></Setter>
-                </Trigger>
-            </Grid.Triggers>
+           
         </Grid>
     </DataTemplate>
     <local:CustomTreeDataTemplateSelector x:Key="CustomTreeDataTemplateSelector"
