@@ -108,6 +108,7 @@ namespace TreeView.Controls.CustomTreeView.CustomTree
                 {
                     NodesToHide.Add(findnodebuindex);
                     findnodebuindex.IsVisibleChildElements = false;
+                    findnodebuindex.Rotation = 0;
                     if (nodeTrees.FirstOrDefault(p=> p.ParentNode == findnodebuindex) != null)
                     {
                         OpenNesting.Add(findnodebuindex);

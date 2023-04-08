@@ -30,7 +30,7 @@
                     </ListView.ItemTemplate>
         </ListView>
         </ScrollView>
-        <Button Clicked="Button_Clicked" Text="Кастомной дерево"></Button>
+        <Button Clicked="Button_Clicked" Text="Кастомное дерево"></Button>
 
     </VerticalStackLayout>
 </ContentPage>
