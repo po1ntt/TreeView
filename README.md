@@ -3,7 +3,7 @@
 Основные свойства: 
 - List<NodeTree> Childrens
 - NodeTree ParentNode <br /> 
-List<NodeTree> Childrens используется для добавления чайлд элементов в дерево, при открытие.<br /> 
+List<NodeTree> Childrens - используется для добавления чайлд элементов в дерево, при открытие.<br /> 
 NodeTree ParentNode - служит для проверки записей на принадлежность к той вложенности, которую хотим скрыть.<br /> 
 ## TreeData
 ### LoadTree
